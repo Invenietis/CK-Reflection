@@ -1,0 +1,21 @@
+﻿{
+  "version": "0.0.0",
+
+  "buildOptions": {
+    "keyFile": "../SharedKey.snk"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "dependencies": {
+        "NETStandard.Library": "1.6.1",
+        "System.Reflection.Emit": "4.3.0",
+        "System.Reflection.TypeExtensions": "4.3.0",
+        "System.Reflection.Emit.Lightweight": "4.3.0",
+        "System.Reflection.Emit.ILGeneration": "4.3.0"
+      }
+    },
+    "net451": {
+    }
+  }
+}
