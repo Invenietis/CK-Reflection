@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
+using Xunit;
 
 namespace CK.Reflection.Tests
 {
@@ -13,7 +14,7 @@ namespace CK.Reflection.Tests
     {
         public int AnIntProperty { get { return 3; } }
 
-        [Test]
+        [Fact]
         public void PropertyInfoThroughLambda()
         {
             {
@@ -82,7 +83,7 @@ namespace CK.Reflection.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void PropertySetter()
         {
             {
@@ -102,7 +103,7 @@ namespace CK.Reflection.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void Parameters()
         {
             var bindingJustForTest = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static;
@@ -185,7 +186,7 @@ namespace CK.Reflection.Tests
             int ZePrivateOnD { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void FlattenProperties()
         {
             typeof(IB).GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
@@ -289,7 +290,7 @@ namespace CK.Reflection.Tests
             public override int PropAVirtual { get { return base.PropAVirtual; } set { base.PropAVirtual = value; } }
         }
 
-        [Test]
+        [Fact]
         public void PropertyInheritanceAndAttributes()
         {
             {
@@ -358,7 +359,7 @@ namespace CK.Reflection.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void ExplicitImplementation()
         {
             {

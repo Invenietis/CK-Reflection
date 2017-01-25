@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using FluentAssertions;
+using Xunit;
 
 namespace CK.Reflection.Tests
 {
@@ -37,7 +38,7 @@ namespace CK.Reflection.Tests
             public void Method2() { }
         }
 
-        [Test]
+        [Fact]
         public void WorksWithAbstractions()
         {
             typeof(Test).GetTypeInfo().IsDefined(typeof(IMarker), false).Should().Be( true, "IsDefined works with any base type of attributes.");
@@ -48,7 +49,7 @@ namespace CK.Reflection.Tests
 
         }
 
-        [Test]
+        [Fact]
         public void CreatedEachTimeGetCustomAttributesIsCalled()
         {
             object a1 = typeof(Test).GetMethod("Method").GetCustomAttributes(typeof(IMarker), false).First();

@@ -28,7 +28,8 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using FluentAssertions;
- 
+using Xunit;
+
 namespace CK.Reflection.Tests
 {
     interface IOverBase2<T>
@@ -113,7 +114,7 @@ namespace CK.Reflection.Tests
     public class TypeMatches
     {
 
-        [Test]
+        [Fact]
         public void TestCovarianceMatch()
         {
             AssertCheck( "False - typeof(IBase<>).IsAssignableFrom( typeof(IDerived<,>) )", typeof( IBase<> ).IsAssignableFrom( typeof( IDerived<,> ) ) );

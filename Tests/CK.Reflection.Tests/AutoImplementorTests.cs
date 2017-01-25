@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
+using Xunit;
 
 namespace CK.Reflection.Tests
 {
@@ -105,7 +106,7 @@ namespace CK.Reflection.Tests
 
         delegate void DynamicWithOutParameters(out Action a, out byte b, ref Guid g, int x);
 
-        [Test]
+        [Fact]
         public void ImplementOutParameters()
         {
             {
@@ -130,7 +131,7 @@ namespace CK.Reflection.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubReturnsClassAndProtected()
         {
             Type t = typeof(A);
@@ -141,7 +142,7 @@ namespace CK.Reflection.Tests
             o.CallFirstMethod(10).Should().BeNull();
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubReturnsInt()
         {
             Type t = typeof(B);
@@ -152,7 +153,7 @@ namespace CK.Reflection.Tests
             o.M(10).Should().Be(0);
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubReturnsShort()
         {
             Type t = typeof(C);
@@ -163,7 +164,7 @@ namespace CK.Reflection.Tests
             o.M(10).Should().Be(0);
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubReturnsGuid()
         {
             Type t = typeof(D);
@@ -174,7 +175,7 @@ namespace CK.Reflection.Tests
             o.M(10).Should().Be(Guid.Empty);
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubRefInt()
         {
             Type t = typeof(E);
@@ -187,7 +188,7 @@ namespace CK.Reflection.Tests
             i.Should().Be(3712);
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubOutInt()
         {
             Type t = typeof(F);
@@ -200,7 +201,7 @@ namespace CK.Reflection.Tests
             i.Should().Be(0);
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubOutGuid()
         {
             Type t = typeof(G);
@@ -213,7 +214,7 @@ namespace CK.Reflection.Tests
             i.Should().Be(Guid.Empty);
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubRefGuid()
         {
             Type t = typeof(H);
@@ -227,7 +228,7 @@ namespace CK.Reflection.Tests
             i.Should().Be(iOrigin);
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubOutClass()
         {
             Type t = typeof(I);
@@ -241,7 +242,7 @@ namespace CK.Reflection.Tests
             c.Should().BeNull();
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubRefClass()
         {
             Type t = typeof(J);
@@ -255,7 +256,7 @@ namespace CK.Reflection.Tests
             c.Should().BeSameAs(cOrigin);
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementGenericMethod()
         {
             Type t = typeof(K);
@@ -292,7 +293,7 @@ namespace CK.Reflection.Tests
             public new byte PublicProperty { get { return (byte)base.PublicProperty; } }
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubProperty()
         {
             Type tA = typeof(PA);
@@ -331,7 +332,7 @@ namespace CK.Reflection.Tests
             public int PublicProperty { get { return _value * 2; } set { _value = value * 2; } }
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubForNonVirtualPropertyIsStupid()
         {
             Type tN = typeof(CNonVirtualProperty);
@@ -356,7 +357,7 @@ namespace CK.Reflection.Tests
             public virtual int PublicProperty { get { return _value * 2; } set { _value = value * 2; } }
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStubForVirtualPropertyActuallyReplacesIt()
         {
             Type t = typeof(CVirtualProperty);
@@ -375,7 +376,7 @@ namespace CK.Reflection.Tests
             int Y { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void AutoImplementStub_can_force_setter_impl()
         {
             TypeBuilder tB = CreateTypeBuilder(null);
@@ -458,7 +459,7 @@ namespace CK.Reflection.Tests
             }
         }
 
-        [Test]
+        [Fact]
         public void PassThroughConstructors()
         {
             {
