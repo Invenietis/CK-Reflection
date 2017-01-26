@@ -76,6 +76,12 @@ namespace CodeCake
                         string.Join( ", ", projectsToPublish.Select( p => p.Name ) ) );
                 } );
 
+            Task("Restore-NuGet-Packages")
+               .Does(() =>
+               {
+                   Cake.DotNetCoreRestore();
+               });
+
             Task( "Clean" )
                 .IsDependentOn( "Check-Repository" )
                 .Does( () =>
@@ -87,6 +93,7 @@ namespace CodeCake
                 } );
 
             Task( "Build" )
+                .IsDependentOn("Restore-NuGet-Packages")
                 .IsDependentOn( "Clean" )
                 .IsDependentOn( "Check-Repository" )
                 .Does( () =>
