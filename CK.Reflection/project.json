@@ -5,6 +5,18 @@
     "keyFile": "../SharedKey.snk"
   },
 
+  "packOptions": {
+    "summary": "Helpers for Reflection and Reflection.Emit.",
+    "releaseNotes": "https://github.com/Invenietis/CK-Reflection/releases",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/Invenietis/CK-Reflection"
+    },
+    "licenseUrl": "https://opensource.org/licenses/MIT"
+  },
+  "authors": [ "Invenietis" ],
+  "copyright": "Copyright 207-1017 Invenietis",
+
   "frameworks": {
     "netstandard1.3": {
       "dependencies": {

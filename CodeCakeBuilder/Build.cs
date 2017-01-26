@@ -1,28 +1,21 @@
-﻿using Cake.Common;
-using Cake.Common.Solution;
+﻿using Cake.Common.Build;
+using Cake.Common.Diagnostics;
 using Cake.Common.IO;
+using Cake.Common.Solution;
+using Cake.Common.Tools.DotNetCore;
+using Cake.Common.Tools.DotNetCore.Pack;
+using Cake.Common.Tools.DotNetCore.Test;
 using Cake.Common.Tools.MSBuild;
 using Cake.Common.Tools.NuGet;
-using Cake.Core;
-using Cake.Common.Diagnostics;
-using SimpleGitVersion;
-using Code.Cake;
-using Cake.Common.Build.AppVeyor;
-using System;
-using System.Linq;
-using Cake.Common.Tools.SignTool;
-using Cake.Core.Diagnostics;
-using Cake.Common.Text;
 using Cake.Common.Tools.NuGet.Push;
-using System.IO;
+using Cake.Core;
+using Cake.Core.Diagnostics;
+using Cake.Core.IO;
+using SimpleGitVersion;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Cake.Common.Tools.NUnit;
-using Cake.Common.Tools.DotNetCore;
-using Cake.Core.IO;
-using Cake.Common.Tools.DotNetCore.Pack;
-using Cake.Common.Build;
-using Cake.Common.Tools.XUnit;
+using System.Linq;
 
 namespace CodeCake
 {
@@ -83,12 +76,6 @@ namespace CodeCake
                         string.Join( ", ", projectsToPublish.Select( p => p.Name ) ) );
                 } );
 
-            Task( "Restore-NuGet-Packages" )
-                .Does( () =>
-                {
-                    Cake.DotNetCoreRestore();
-                } );
-
             Task( "Clean" )
                 .IsDependentOn( "Check-Repository" )
                 .Does( () =>
@@ -101,7 +88,6 @@ namespace CodeCake
 
             Task( "Build" )
                 .IsDependentOn( "Clean" )
-                .IsDependentOn( "Restore-NuGet-Packages" )
                 .IsDependentOn( "Check-Repository" )
                 .Does( () =>
                 {
@@ -124,17 +110,20 @@ namespace CodeCake
                     var testProjects = Cake.ParseSolution( solutionFileName )
                      .Projects
                          .Where( p => p.Name.EndsWith( ".Tests" ) )
-                         .Select( p => p.Path );
+                         .Select( p => p.Path.GetDirectory().FullPath );
 
-                    Cake.XUnit2(testProjects);
-
-                    //foreach (var test in testProjects)
-                    //{
-                    //    using (Cake.Environment.SetWorkingDirectory(test.GetDirectory()))
-                    //    {
-                    //        Cake.Information("Testing: {0}", test);
-                    //    }
-                    //}
+                    foreach (var test in testProjects)
+                    {
+                        Cake.Information("Testing: {0}", test);
+                        using (Cake.Environment.SetWorkingDirectory(test))
+                        {
+                            Cake.DotNetCoreTest(test, new DotNetCoreTestSettings()
+                            {
+                                NoBuild = true,
+                                Configuration = configuration
+                            });
+                        }
+                    }
                 } );
 
             Task( "Create-NuGet-Packages" )
@@ -145,7 +134,6 @@ namespace CodeCake
                     Cake.CreateDirectory( releasesDir );
                     foreach( SolutionProject p in projectsToPublish )
                     {
-                        Cake.Warning(p.Path.GetDirectory().FullPath);
                         Cake.DotNetCorePack(p.Path.GetDirectory().FullPath, new DotNetCorePackSettings()
                         {
                             NoBuild = true,

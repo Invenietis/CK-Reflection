@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Xunit;
+using System.IO;
 
 namespace CK.Reflection.Tests
 {
