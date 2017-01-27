@@ -15,7 +15,7 @@
     "licenseUrl": "https://opensource.org/licenses/MIT"
   },
   "authors": [ "Invenietis" ],
-  "copyright": "Copyright 207-1017 Invenietis",
+  "copyright": "Copyright 2007-1017 Invenietis",
 
   "frameworks": {
     "netstandard1.3": {
