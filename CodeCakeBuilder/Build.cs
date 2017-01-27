@@ -201,13 +201,13 @@ namespace CodeCake
 
         }
 
-        private void PushNuGetPackages( string apiKeyName, string pushUrl, IEnumerable<FilePath> nugetPackages )
+        void PushNuGetPackages(string apiKeyName, string pushUrl, IEnumerable<FilePath> nugetPackages)
         {
             // Resolves the API key.
-            var apiKey = Cake.InteractiveEnvironmentVariable( apiKeyName );
-            if( string.IsNullOrEmpty( apiKey ) )
+            var apiKey = Cake.InteractiveEnvironmentVariable(apiKeyName);
+            if (string.IsNullOrEmpty(apiKey))
             {
-                Cake.Information( "Could not resolve {0}. Push to {1} is skipped.", apiKeyName, pushUrl );
+                Cake.Information("Could not resolve {0}. Push to {1} is skipped.", apiKeyName, pushUrl);
             }
             else
             {
@@ -218,10 +218,10 @@ namespace CodeCake
                     Verbosity = NuGetVerbosity.Detailed
                 };
 
-                foreach( var nupkg in nugetPackages )
+                foreach (var nupkg in nugetPackages.Where(p => !p.FullPath.EndsWith(".symbols.nupkg")))
                 {
                     Cake.Information($"Pushing '{nupkg}' to '{pushUrl}'.");
-                    Cake.NuGetPush( nupkg, settings );
+                    Cake.NuGetPush(nupkg, settings);
                 }
             }
         }
