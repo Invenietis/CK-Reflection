@@ -1,22 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CK.Reflection", "CK.Reflection\CK.Reflection.xproj", "{DEFE36D9-3BC2-4F02-B1C7-615AC4935746}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7C9F751D-25CD-4A19-838B-B69E7B897468}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
-		global.json = global.json
 		NuGet.config = NuGet.config
 		RepositoryInfo.xml = RepositoryInfo.xml
+		Common\Shared.props = Common\Shared.props
+		Common\SharedKey.snk = Common\SharedKey.snk
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1A7E3E39-6483-4802-8B27-C4D245D35D09}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CK.Reflection.Tests", "Tests\CK.Reflection.Tests\CK.Reflection.Tests.xproj", "{F479F1A9-C0F2-4346-8D70-64442E0F10BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Reflection", "CK.Reflection\CK.Reflection.csproj", "{DEFE36D9-3BC2-4F02-B1C7-615AC4935746}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Reflection.Tests", "Tests\CK.Reflection.Tests\CK.Reflection.Tests.csproj", "{F479F1A9-C0F2-4346-8D70-64442E0F10BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCakeBuilder", "CodeCakeBuilder\CodeCakeBuilder.csproj", "{FD4817B6-3CD7-4E74-AA10-7CA95FDFCF2D}"
 EndProject

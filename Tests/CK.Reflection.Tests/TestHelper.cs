@@ -9,7 +9,7 @@ namespace CK.Reflection.Tests
         public static void Throw<T>(Action a) where T : Exception => a.ShouldThrow<T>();
     }
 
-#if !NET451
+#if !NET452
     class  ExcludeFromCodeCoverageAttribute : Attribute
     {
     }
