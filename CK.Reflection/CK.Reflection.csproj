@@ -4,9 +4,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.3;net451</TargetFrameworks>
-    <AssemblyName>CK.Reflection</AssemblyName>
-    <PackageId>CK.Reflection</PackageId>
     <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.3' ">1.6.1</NetStandardImplicitPackageVersion>
+    <Description>
+      Standard reflection and emit helpers: DelegateHelper allows invoking virtual method base, 
+      EmitHelper and ILGeneratorExtension ease classical emit funtions.
+    </Description>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
