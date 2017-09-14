@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CK.Core
+namespace CK.Reflection
 {
     /// <summary>
     /// Provides actual comparison of <see cref="MemberInfo"/> without  considering the <see cref="MemberInfo.ReflectedType"/>.
