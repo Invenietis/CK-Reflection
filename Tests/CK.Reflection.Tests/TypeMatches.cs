@@ -28,7 +28,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using FluentAssertions;
-using Xunit;
+using NUnit.Framework;
 
 namespace CK.Reflection.Tests
 {
@@ -114,7 +114,7 @@ namespace CK.Reflection.Tests
     public class TypeMatches
     {
 
-        [Fact]
+        [Test]
         public void TestCovarianceMatch()
         {
             AssertCheck( "False - typeof(IBase<>).IsAssignableFrom( typeof(IDerived<,>) )", typeof( IBase<> ).IsAssignableFrom( typeof( IDerived<,> ) ) );

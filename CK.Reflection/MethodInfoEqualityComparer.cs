@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CK.Reflection
+namespace CK.Core
 {
     /// <summary>
     /// Provides actual comparison of <see cref="MemberInfo"/> without  considering the <see cref="MemberInfo.ReflectedType"/>.
@@ -69,11 +69,8 @@ namespace CK.Reflection
 
             if( x.DeclaringType != null && x.DeclaringType.IsArray ) return false;
 
-#if NET451
             // Equal members always have the same metadata token
-            // REVIEW: MetadataToken does no longer exists in dotnet core.
             if( x.MetadataToken != y.MetadataToken ) return false;
-#endif
             // Equal members always have the same declaring type - if any!
             if( x.DeclaringType != y.DeclaringType ) return false;
 
@@ -104,15 +101,12 @@ namespace CK.Reflection
         /// <returns>The calculated hash code of the <see cref="MemberInfo"/>.</returns>
         public int GetHashCode( MemberInfo m )
         {
-            if( m  == null ) throw new ArgumentNullException( "m" );
+            if( m == null ) throw new ArgumentNullException( "m" );
             if( m.DeclaringType != null && m.DeclaringType.IsArray )
             {
                 return SafeHashCode( m.DeclaringType ) ^ SafeHashCode( m.Name ) ^ SafeHashCode( m.Module );
-            }            
-            
-            // REVIEW: MetadataToken does no longer exists in dotnet core.
-            // SafeHashCode( m.MetadataToken ) ^ 
-            return SafeHashCode( m.DeclaringType ) ^  SafeHashCode( m.Module );
+            }
+            return SafeHashCode( m.MetadataToken ) ^ SafeHashCode( m.DeclaringType ) ^ SafeHashCode( m.Module );
         }
 
         static int SafeHashCode( object o )
@@ -120,4 +114,5 @@ namespace CK.Reflection
             return o != null ? o.GetHashCode() : 0;
         }
     }
+
 }
