@@ -3,19 +3,14 @@
   <Import Project="..\Common\Shared.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <Description>Standard reflection and emit helpers: DelegateHelper allows invoking virtual method base, EmitHelper and ILGeneratorExtension ease classical emit funtions.
     </Description>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.Emit.ILGeneration" Version="4.3.0" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
