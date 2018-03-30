@@ -16,16 +16,4 @@ namespace CK.Text.Tests
 
     }
 }
-#else
-namespace CK.Text.Tests
-{
-    public class Program
-    {
-        public static int Main( string[] args )
-        {
-            return 0;
-        }
-
-    }
-}
 #endif
