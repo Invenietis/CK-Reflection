@@ -27,7 +27,8 @@ namespace CK.Reflection.Tests
                 i.Name.Should().Be( "Length" );
                 i.PropertyType.Should().BeSameAs( typeof( int ) );
 
-                Should.Throw<ArgumentException>( () => ReflectionHelper.GetPropertyInfo( oneInstance, s => s.IndexOf( 'e' ) ) );
+                Action a = () => ReflectionHelper.GetPropertyInfo( oneInstance, s => s.IndexOf( 'e' ) );
+                a.Should().Throw<ArgumentException>();
             }
             {
                 // Same as before, but default() is used to "obtain" an instance of the holder type.
@@ -42,7 +43,8 @@ namespace CK.Reflection.Tests
                 i.Name.Should().Be( "Length" );
                 i.PropertyType.Should().BeSameAs( typeof( int ) );
 
-                Should.Throw<ArgumentException>( () => ReflectionHelper.GetPropertyInfo<string>( s => s.IndexOf( 'e' ) ) );
+                Action a = () => ReflectionHelper.GetPropertyInfo<string>( s => s.IndexOf( 'e' ) );
+                a.Should().Throw<ArgumentException>();
             }
             {
                 // This version avoids the instance (but requires the holder type to be specified),
@@ -65,7 +67,8 @@ namespace CK.Reflection.Tests
                 i2.PropertyType.Should().BeSameAs( typeof( string ) );
 
                 byte[] anArray = new byte[1];
-                Should.Throw<ArgumentException>( () => ReflectionHelper.GetPropertyInfo( () => anArray[0] ) );
+                Action a = () => ReflectionHelper.GetPropertyInfo( () => anArray[0] );
+                a.Should().Throw<ArgumentException>();
             }
             {
                 // This version uses the closure to capture the reference to the property
@@ -81,7 +84,8 @@ namespace CK.Reflection.Tests
                 i2.Name.Should().Be( "Name" );
                 i2.PropertyType.Should().BeSameAs( typeof( string ) );
 
-                Should.Throw<ArgumentException>( () => ReflectionHelper.GetPropertyInfo( () => i2.Name.ToString() ) );
+                Action a = () => ReflectionHelper.GetPropertyInfo( () => i2.Name.ToString() );
+                a.Should().Throw<ArgumentException>();
             }
         }
 
@@ -90,7 +94,8 @@ namespace CK.Reflection.Tests
         {
             {
                 string s = "a string";
-                Should.Throw<InvalidOperationException>( () => DelegateHelper.CreateSetter( s, x => x.Length ) );
+                Action a = () => DelegateHelper.CreateSetter( s, x => x.Length );
+                a.Should().Throw<InvalidOperationException>();
                 DelegateHelper.CreateSetter( s, x => x.Length, DelegateHelper.CreateInvalidSetterOption.NullAction )
                     .Should().BeNull();
                 var p = DelegateHelper.CreateSetter( s, x => x.Length, DelegateHelper.CreateInvalidSetterOption.VoidAction );

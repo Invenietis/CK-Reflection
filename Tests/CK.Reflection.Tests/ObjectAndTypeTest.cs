@@ -56,8 +56,10 @@ namespace CK.Reflection.Tests
                     Func<int, string> fsUnk2 = DelegateHelper.GetStaticInvoker<Func<int, string>>( tA, "StaticMethodUnk" );
                     fsUnk2.Should().BeNull();
 
-                    Should.Throw<MissingMethodException>( () => DelegateHelper.GetStaticInvoker<Func<int, int>>( tA, "StaticMethod", true ) );
-                    Should.Throw<MissingMethodException>( () => DelegateHelper.GetStaticInvoker<Func<int, string>>( tA, "StaticMethodUnk", true ) );
+                    Action a = () => DelegateHelper.GetStaticInvoker<Func<int, int>>( tA, "StaticMethod", true );
+                    a.Should().Throw<MissingMethodException>();
+                    a = () => DelegateHelper.GetStaticInvoker<Func<int, string>>( tA, "StaticMethodUnk", true );
+                    a.Should().Throw<MissingMethodException>();
 
                     DelegateHelper.GetStaticInvoker<Func<int, int>>( tA, "StaticMethod", false ).Should().BeNull();
                     DelegateHelper.GetStaticInvoker<Func<int, string>>( tA, "StaticMethodUnk", false ).Should().BeNull();
@@ -86,8 +88,11 @@ namespace CK.Reflection.Tests
                 Func<A, int, string> fUnk2 = DelegateHelper.GetInstanceInvoker<Func<A, int, string>>( tA, "SimpleMethoddUnk" );
                 fUnk2.Should().BeNull();
 
-                Should.Throw<MissingMethodException>( () => DelegateHelper.GetInstanceInvoker<Func<A, int, int>>( tA, "SimpleMethod", true ) );
-                Should.Throw<MissingMethodException>( () => DelegateHelper.GetInstanceInvoker<Func<A, int, string>>( tA, "SimpleMethodUnk", true ) );
+                Action call = () => DelegateHelper.GetInstanceInvoker<Func<A, int, int>>( tA, "SimpleMethod", true );
+                call.Should().Throw<MissingMethodException>();
+
+                call = () => DelegateHelper.GetInstanceInvoker<Func<A, int, string>>( tA, "SimpleMethodUnk", true );
+                call.Should().Throw<MissingMethodException>();
 
                 DelegateHelper.GetInstanceInvoker<Func<A, int, int>>( tA, "SimpleMethod", false ).Should().BeNull();
                 DelegateHelper.GetInstanceInvoker<Func<A, int, string>>( tA, "SimpleMethodUnk", false ).Should().BeNull();
@@ -120,8 +125,10 @@ namespace CK.Reflection.Tests
                 Func<A, int, string> fUnk2 = DelegateHelper.GetNonVirtualInvoker<Func<A, int, string>>( tA, "SimpleMethoddUnk" );
                 fUnk2.Should().BeNull();
 
-                Should.Throw<MissingMethodException>( () => DelegateHelper.GetNonVirtualInvoker<Func<A, int, int>>( tA, "SimpleMethod", true ) );
-                Should.Throw<MissingMethodException>( () => DelegateHelper.GetNonVirtualInvoker<Func<A, int, string>>( tA, "SimpleMethodUnk", true ) );
+                Action call = () => DelegateHelper.GetNonVirtualInvoker<Func<A, int, int>>( tA, "SimpleMethod", true );
+                call.Should().Throw<MissingMethodException>();
+                call = () => DelegateHelper.GetNonVirtualInvoker<Func<A, int, string>>( tA, "SimpleMethodUnk", true );
+                call.Should().Throw<MissingMethodException>();
 
                 DelegateHelper.GetNonVirtualInvoker<Func<A, int, int>>( tA, "SimpleMethod", false ).Should().BeNull();
                 DelegateHelper.GetNonVirtualInvoker<Func<A, int, string>>( tA, "SimpleMethodUnk", false ).Should().BeNull();
