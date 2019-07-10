@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net461;netcoreapp2.1;</TargetFrameworks>
     <OutputType>Exe</OutputType>
+    <IsPackable>False</IsPackable>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CK.Reflection\CK.Reflection.csproj" />
