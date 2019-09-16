@@ -1,2 +1,0 @@
-C:/Dev/CK/CK-Core-Projects/CK-Reflection/Tests/CK.Reflection.Tests/bin/Debug/net461/CK.Reflection.Tests.exe
-C:/Dev/CK/CK-Core-Projects/CK-Reflection/Tests/CK.Reflection.Tests/bin/Debug/netcoreapp2.1/CK.Reflection.Tests.dll
