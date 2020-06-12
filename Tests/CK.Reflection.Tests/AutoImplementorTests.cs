@@ -278,6 +278,9 @@ namespace CK.Reflection.Tests
             // To test: this virtual returns -1, so the fact that the generated method doesn't
             // override this base one doesn't block the type building.
             //
+            // For this test to "work", the tB.DefineMethodOverride( mB, method ); call at the end of ImplementEmptyStubMethod
+            // must be removed.
+            //
             public virtual int M( in ROStruct s ) => -1;
 
             // The abstract is not implemented.
@@ -301,7 +304,8 @@ namespace CK.Reflection.Tests
             var manual = (LManual)Activator.CreateInstance( typeof(LManual) );
             manual.M( new ROStruct() ).Should().Be( 3712 );
 
-            Type builtType = b.CreateTypeInfo().AsType();
+            Assume.That( false, "'in' parameters support is not yet implemented: See https://github.com/dotnet/runtime/issues/25958." );
+            Type builtType = b.CreateType();
             L o = (L)Activator.CreateInstance( builtType );
             o.M( new ROStruct() ).Should().Be( -1, "Unfortunately... The implemented method DID NOT override the base one. This SHOULD be 0 (the default return of the stub)" );
 
@@ -311,7 +315,6 @@ namespace CK.Reflection.Tests
             // Both parameters seems perfectly aligned. Same for the 2 methods.
             // I'm clearly missing something here... Giving up for the moment.
             // 
-            Assume.That( false, "'in' parameters support is not yet implemented." );
         }
 
 

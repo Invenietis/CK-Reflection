@@ -116,8 +116,10 @@ namespace CK.Reflection
             // Enabling this on the 'in' parameter raises an explicit:
             //    System.TypeLoadException : Signature of the body and declaration in a method implementation do not match.  Type: 'L2'.  Assembly: 'TypeImplementorModule, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
             // ...that clearly states that something's wrong in the signatures.
-            // 
-            // tB.DefineMethodOverride( mB, method );
+            //
+            // This enforces the mapping: this avoids the bug of a virtual that would NOT be overridden. So we let it.
+            //
+            tB.DefineMethodOverride( mB, method );
             return mB;
         }
 
