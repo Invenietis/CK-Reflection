@@ -11,6 +11,8 @@ using System.IO;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using NUnit.Framework;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace CK.Reflection.Tests
 {
@@ -267,6 +269,70 @@ namespace CK.Reflection.Tests
 
             o.M<int>().Should().BeNull();
         }
+
+
+        public readonly struct ROStruct { public readonly int Value; }
+
+        public abstract class L
+        {
+            // To test: this virtual returns -1, so the fact that the generated method doesn't
+            // override this base one doesn't block the type building.
+            //
+            public virtual int M( in ROStruct s ) => -1;
+
+            // The abstract is not implemented.
+            //
+            //public abstract int M( in ROStruct s );
+
+        }
+
+        public class LManual : L
+        {
+            public override int M( in ROStruct s ) => 3712;
+        }
+
+        [Test]
+        public void AutoImplementInROStruct()
+        {
+            Type t = typeof( L );
+            TypeBuilder b = CreateTypeBuilder( t );
+            EmitHelper.ImplementEmptyStubMethod( b, t.GetMethod( "M" ), false );
+
+            var manual = (LManual)Activator.CreateInstance( typeof(LManual) );
+            manual.M( new ROStruct() ).Should().Be( 3712 );
+
+            Type builtType = b.CreateTypeInfo().AsType();
+            L o = (L)Activator.CreateInstance( builtType );
+            o.M( new ROStruct() ).Should().Be( -1, "Unfortunately... The implemented method DID NOT override the base one. This SHOULD be 0 (the default return of the stub)" );
+
+            // Inspect: typeof(LManual).GetMethod("M").GetParameters()[0]
+            // Inspect: builtType.GetMethod("M").GetParameters()[0]
+            //
+            // Both parameters seems perfectly aligned. Same for the 2 methods.
+            // I'm clearly missing something here... Giving up for the moment.
+            // 
+            Assume.That( false, "'in' parameters support is not yet implemented." );
+        }
+
+
+        public abstract class MT
+        {
+            public abstract (byte,int) M( (AnObject,int,string) param );
+        }
+
+        [Test]
+        public void AutoImplementWithTuplesParameters()
+        {
+            Type t = typeof( MT );
+            TypeBuilder b = CreateTypeBuilder( t );
+            EmitHelper.ImplementEmptyStubMethod( b, t.GetMethod( "M" ), false );
+            Type builtType = b.CreateTypeInfo().AsType();
+            MT o = (MT)Activator.CreateInstance( builtType );
+
+            o.M( (null, 45, "k" ) ).Item2.Should().Be( 0 );
+        }
+
+
 
         #endregion
 

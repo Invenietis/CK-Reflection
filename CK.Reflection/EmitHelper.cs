@@ -37,6 +37,42 @@ namespace CK.Reflection
     public static class EmitHelper
     {
         /// <summary>
+        /// Converts a <see cref="CustomAttributeData"/> to its <see cref="CustomAttributeBuilder"/> so it can be applied
+        /// to another generated member.
+        /// </summary>
+        /// <param name="data">the attribute data.</param>
+        /// <returns>The attribute builder to apply.</returns>
+        public static CustomAttributeBuilder CreateAttributeBuilder( CustomAttributeData data )
+        {
+            if( data == null ) throw new ArgumentNullException( "data" );
+
+            var props = new List<PropertyInfo>();
+            var propVals = new List<object>();
+            var fields = new List<FieldInfo>();
+            var fieldVals = new List<object>();
+            foreach( var n in data.NamedArguments )
+            {
+                if( n.MemberInfo is FieldInfo f )
+                {
+                    fields.Add( f );
+                    fieldVals.Add( n.TypedValue.Value );
+                }
+                else if( n.MemberInfo is PropertyInfo p )
+                {
+                    props.Add( p );
+                    propVals.Add( n.TypedValue.Value );
+                }
+            }
+            return new CustomAttributeBuilder( data.Constructor,
+                                               data.ConstructorArguments.Select( a => a.Value ).ToArray(),
+                                               props.ToArray(),
+                                               propVals.ToArray(),
+                                               fields.ToArray(),
+                                               fieldVals.ToArray() );
+        }
+
+
+        /// <summary>
         /// Implements a method as a no operation method. Method can be virtual, abstract or not.
         /// </summary>
         /// <param name="tB">The <see cref="TypeBuilder"/> for the new type.</param>
@@ -49,7 +85,6 @@ namespace CK.Reflection
             if( method == null ) throw new ArgumentNullException( "method" );
 
             ParameterInfo[] parameters = method.GetParameters();
-            Type[] parametersTypes = ReflectionHelper.CreateParametersType( parameters );
             Type returnType = method.ReturnType;
 
             MethodAttributes mA = method.Attributes & ~(MethodAttributes.Abstract | MethodAttributes.VtableLayoutMask);
@@ -73,9 +108,16 @@ namespace CK.Reflection
                     genericTypeBuilder.SetInterfaceConstraints( genericTypeArgument.GetGenericParameterConstraints() );
                 }
             }
-            mB.SetReturnType( method.ReturnType );
+            mB.SetReturnType( returnType );
             mB.SetParameters( ReflectionHelper.CreateParametersType( parameters ) );
             EmitEmptyImplementation( mB, returnType, parameters );
+
+            // This "forces" the mapping that is done autmatically as long as the the signatures match.
+            // Enabling this on the 'in' parameter raises an explicit:
+            //    System.TypeLoadException : Signature of the body and declaration in a method implementation do not match.  Type: 'L2'.  Assembly: 'TypeImplementorModule, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+            // ...that clearly states that something's wrong in the signatures.
+            // 
+            // tB.DefineMethodOverride( mB, method );
             return mB;
         }
 
@@ -86,7 +128,15 @@ namespace CK.Reflection
             {
                 // DefineParameter use 0 for the return parameter.
                 ParameterInfo param = parameters[i];
-                vM.DefineParameter( i + 1, param.Attributes, param.Name );
+                ParameterBuilder pB = vM.DefineParameter( i + 1, param.Attributes, param.Name );
+                Debug.Assert( pB.IsIn == param.IsIn && pB.IsOptional == param.IsOptional && pB.IsOut == param.IsOut && pB.Name == param.Name && pB.Position == param.Position + 1 );
+                foreach( var pAttr in param.CustomAttributes )
+                {
+                    if( pAttr.AttributeType != typeof(System.Runtime.InteropServices.InAttribute) )
+                    {
+                        pB.SetCustomAttribute( CreateAttributeBuilder( pAttr ) );
+                    }
+                }
                 if( param.IsOut )
                 {
                     Debug.Assert( param.ParameterType.IsByRef, "'Out' is just an attribute on 'by ref' parameters (unfortunate for covariance support)." );
