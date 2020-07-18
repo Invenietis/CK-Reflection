@@ -14,7 +14,7 @@ namespace CK.Reflection.Tests
     [TestFixture]
     public class HelperTest
     {
-        public int AnIntProperty { get { return 3; } }
+        public int AnIntProperty => 3;
 
         [Test]
         public void PropertyInfoThroughLambda()
