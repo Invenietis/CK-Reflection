@@ -2,15 +2,13 @@
   <Import Project="..\..\Common\Shared.props" />
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-    <OutputType>Exe</OutputType>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CK.Reflection\CK.Reflection.csproj" />
-    <PackageReference Include="FluentAssertions" Version="5.10.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NUnitLite" Version="3.12.0" />
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
   </ItemGroup>
 </Project>
