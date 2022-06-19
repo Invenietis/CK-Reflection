@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
@@ -9,11 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		appveyor.yml = appveyor.yml
 		NuGet.config = NuGet.config
 		RepositoryInfo.xml = RepositoryInfo.xml
-		Common\Shared.props = Common\Shared.props
 		Common\SharedKey.snk = Common\SharedKey.snk
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1A7E3E39-6483-4802-8B27-C4D245D35D09}"
+	ProjectSection(SolutionItems) = preProject
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CK.Reflection", "CK.Reflection\CK.Reflection.csproj", "{DEFE36D9-3BC2-4F02-B1C7-615AC4935746}"
 EndProject

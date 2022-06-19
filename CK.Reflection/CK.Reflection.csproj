@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Common\Shared.props" />
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
     <Description>Standard reflection and emit helpers: DelegateHelper allows invoking virtual method base, EmitHelper and ILGeneratorExtension ease classical emit funtions.
