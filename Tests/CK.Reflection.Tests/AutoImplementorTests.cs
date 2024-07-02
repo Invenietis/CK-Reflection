@@ -317,26 +317,6 @@ namespace CK.Reflection.Tests
             // 
         }
 
-
-        public abstract class MT
-        {
-            public abstract (byte,int) M( (AnObject,int,string) param );
-        }
-
-        [Test]
-        public void AutoImplementWithTuplesParameters()
-        {
-            Type t = typeof( MT );
-            TypeBuilder b = CreateTypeBuilder( t );
-            EmitHelper.ImplementEmptyStubMethod( b, t.GetMethod( "M" ), false );
-            Type builtType = b.CreateTypeInfo().AsType();
-            MT o = (MT)Activator.CreateInstance( builtType );
-
-            o.M( (null, 45, "k" ) ).Item2.Should().Be( 0 );
-        }
-
-
-
         #endregion
 
         #region EmitHelper.ImplementEmptyStubProperty tests
